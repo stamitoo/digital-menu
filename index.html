@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ресторант "Елеганс" – Книжно Меню</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      background-color: #121212;
+      color: #f9f6f2;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      max-width: 1200px;
+      width: 100%;
+      height: 100%;
+      background: #1b1b1b;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(248, 208, 104, 0.6);
+      overflow: hidden;
+      /* меню вдясно */
+      flex-direction: row-reverse;
+    }
+
+    /* дясна част - меню */
+
+    .right-panel {
+      flex: 1.5;
+      background-color: #1b1b1b;
+      padding: 30px 25px;
+      overflow-y: auto;
+      border-left: 2px solid #f8d068;
+      border-right: none;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: #f8d068;
+      margin: 0;
+      letter-spacing: 4px;
+      user-select: none;
+    }
+
+    header p {
+      color: #aaa;
+      font-style: italic;
+      margin-top: 5px;
+      user-select: none;
+    }
+
+    .categories {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      margin-bottom: 20px;
+    }
+
+    .category-button {
+      background: none;
+      border: none;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: #ccc;
+      cursor: pointer;
+      padding: 10px 12px;
+      border-left: 4px solid transparent;
+      transition: all 0.3s ease;
+      text-align: left;
+      user-select: none;
+    }
+
+    .category-button.active,
+    .category-button:hover {
+      color: #f8d068;
+      border-left: 4px solid #f8d068;
+      background-color: #292929;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .dishes-list {
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .dish-item {
+      font-size: 1.15rem;
+      padding: 12px;
+      cursor: pointer;
+      border-radius: 6px;
+      color: #ddd;
+      border: 1px solid transparent;
+      margin-bottom: 10px;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .dish-item:hover,
+    .dish-item.active {
+      background-color: #f8d068;
+      color: #121212;
+      border-color: #f8d068;
+      font-weight: 600;
+    }
+
+    /* лява част - снимка и описание */
+
+    .left-panel {
+      flex: 2;
+      background-color: #292929;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .left-panel img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(248, 208, 104, 0.8);
+      max-height: 400px;
+      object-fit: cover;
+      margin-bottom: 30px;
+    }
+
+    .left-panel h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      color: #f8d068;
+      margin-bottom: 15px;
+      letter-spacing: 3px;
+    }
+
+    .left-panel p.description {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: #ddd;
+      margin-bottom: 25px;
+      max-width: 90%;
+    }
+
+    .left-panel .ingredients {
+      font-style: italic;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+
+    .left-panel .price {
+      font-weight: 700;
+      font-size: 2rem;
+      color: #f8d068;
+      letter-spacing: 3px;
+    }
+
+    /* скрол за менюто */
+
+    .right-panel::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .right-panel::-webkit-scrollbar-thumb {
+      background: #f8d068aa;
+      border-radius: 5px;
+    }
+
+    .dishes-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .dishes-list::-webkit-scrollbar-thumb {
+      background: #f8d068cc;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="left-panel" id="leftPanel">
+      <img id="dishImage" src="https://images.unsplash.com/photo-1604909053142-0c7af30f93a5?auto=format&fit=crop&w=700&q=80" alt="Ястие">
+      <h2 id="dishTitle">Филе миньон с трюфелов сос</h2>
+      <p class="description" id="dishDescription">Кадифено филе миньон, сервирано със сос от бели трюфели, гарнирано с пресни зеленчуци и
+        картофено пюре.</p>
+      <p class="ingredients" id="dishIngredients">Съставки: говеждо месо, трюфели, сметана, подправки</p>
+      <p class="price" id="dishPrice">58 лв.</p>
+    </div>
+
+    <div class="right-panel">
+      <header>
+        <h1>Ресторант "Елеганс"</h1>
+        <p>Изискано дигитално меню</p>
+      </header>
+
+      <nav class="categories" id="categoriesNav">
+        <!-- Категории се генерират с JavaScript -->
+      </nav>
+
+      <div class="dishes-list" id="dishesList">
+        <!-- Ястията се визуализират тук -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const menuData = {
+      "Предястия": [
+        {
+          title: "Карпачо от говеждо",
+          description: "Фино нарязано прясно говеждо месо с каперси, рукола и пармезан.",
+          ingredients: "говеждо месо, каперси, рукола, пармезан",
+          price: "28 лв.",
+          image: "https://images.unsplash.com/photo-1556912994-3c0115aa0746?auto=format&fit=crop&w=700&q=80"
+        },
+        {
+          title: "Салата Рукола с пармезан",
+          description: "Свежа салата с рукола, пармезан, чери домати и зехтин.",
+          ingredients: "рукола, пармезан, чери домати, зехтин",
+          price: "24 лв.",
+          image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=700&q=80"
+        }
+      ],
+
+      "Основни ястия": [
+        {
+          title: "Филе миньон с трюфелов сос",
+          description: "Кадифено филе миньон, сервирано със сос от бели трюфели, гарнирано с пресни зеленчуци и домашно приготвено картофено пюре.",
+          ingredients: "говеждо месо, трюфели, сметана, подправки",
+          price: "58 лв.",
+          image: "https://images.unsplash.com/photo-1604909053142-0c7af30f93a5?auto=format&fit=crop&w=700&q=80"
+        },
+        {
+          title: "Лосос на скара с аспержи",
+          description: "Прясно изпечен лосос, поднесен с печени аспержи и лимонов сос.",
+          ingredients: "лосос, аспержи, лимон, подправки",
+          price: "52 лв.",
+          image: "https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=700&q=80"
+        }
+      ],
+
+      "Десерти": [
+        {
+          title: "Шоколадово суфле с ванилов крем",
+          description: "Топло шоколадово суфле, поднесено с лек ванилов крем и пресни плодове.",
+          ingredients: "шоколад, ванилия, яйца, брашно",
+          price: "18 лв.",
+          image: "https://images.unsplash.com/photo-1562440499-176fed524888?auto=format&fit=crop&w=700&q=80"
+        },
+        {
+          title: "Мус от манго и маракуя",
+          description: "Лек и освежаващ мус с манго и маракуя, украсен с листа мента.",
+          ingredients: "манго, маракуя, сметана, захар",
+          price: "16 лв.",
+          image: "https://images.unsplash.com/photo-1563805042-7684d5e29fff?auto=format&fit=crop&w=700&q=80"
+        }
+      ],
+
+      "Напитки": [
+        {
+          title: "Червено вино Каберне",
+          description: "Богато и плътно червено вино с аромат на тъмни плодове.",
+          ingredients: "каберне совиньон",
+          price: "14 лв.",
+          image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=700&q=80"
+        },
+        {
+          title: "Шампанско брют",
+          description: "Елегантно и свежо шампанско с балансирана киселинност.",
+          ingredients: "шампанско, грозде",
+          price: "22 лв.",
+          image: "https://images.unsplash.com/photo-1617191512881-5e704a81c38b?auto=format&fit=crop&w=700&q=80"
+        },
+        {
+          title: "Еспресо",
+          description: "Силно и ароматно кафе, приготвено с фина техника.",
+          ingredients: "кафе",
+          price: "5 лв.",
+          image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=700&q=80"
+        }
+      ]
+    };
+
+    const categoriesNav = document.getElementById('categoriesNav');
+    const dishesList = document.getElementById('dishesList');
+    const dishImage = document.getElementById('dishImage');
+    const dishTitle = document.getElementById('dishTitle');
+    const dishDescription = document.getElementById('dishDescription');
+    const dishIngredients = document.getElementById('dishIngredients');
+    const dishPrice = document.getElementById('dishPrice');
+
+    let currentCategory = null;
+    let currentDishIndex = 0;
+
+    function loadCategories() {
+      for (const category in menuData) {
+        const btn = document.createElement('button');
+        btn.textContent = category;
+        btn.classList.add('category-button');
+        btn.onclick = () => selectCategory(category);
+        categoriesNav.appendChild(btn);
+      }
+      const firstCategory = Object.keys(menuData)[0];
+      selectCategory(firstCategory);
+    }
+
+    function selectCategory(category) {
+      currentCategory = category;
+      currentDishIndex = 0;
+      updateCategoryButtons();
+      loadDishes();
+      showDish(currentDishIndex);
+    }
+
+    function updateCategoryButtons() {
+      [...categoriesNav.children].forEach(btn => {
+        btn.classList.toggle('active', btn.textContent === currentCategory);
+      });
+    }
+
+    function loadDishes() {
+      dishesList.innerHTML = '';
+      menuData[currentCategory].forEach((dish, index) => {
+        const div = document.createElement('div');
+        div.classList.add('dish-item');
+        div.textContent = dish.title;
+        div.onclick = () => {
+          currentDishIndex = index;
+          showDish(currentDishIndex);
+          updateDishActive();
+        };
+        dishesList.appendChild(div);
+      });
+      updateDishActive();
+    }
+
+    function updateDishActive() {
+      [...dishesList.children].forEach((el, idx) => {
+        el.classList.toggle('active', idx === currentDishIndex);
+      });
+    }
+
+    function showDish(index) {
+      const dish = menuData[currentCategory][index];
+      dishImage.src = dish.image;
+      dishTitle.textContent = dish.title;
+      dishDescription.textContent = dish.description;
+      dishIngredients.textContent = `Съставки: ${dish.ingredients}`;
+      dishPrice.textContent = dish.price;
+    }
+
+    loadCategories();
+  </script>
+</body>
+
+</html>
