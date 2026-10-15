@@ -4,445 +4,271 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ресторант "Елеганс" – Адаптивно Меню</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap" rel="stylesheet" />
+  <title>Меню с жълто поле за категории</title>
   <style>
-    /* Основни стилове */
     body {
       margin: 0;
+      font-family: Arial, sans-serif;
       background-color: #fff;
       color: #222;
-      font-family: 'Roboto', sans-serif;
+      display: flex;
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      padding: 10px;
     }
 
-    .container {
-      display: flex;
-      max-width: 1100px;
-      width: 100%;
-      background: #fefefe;
-      border-radius: 12px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      flex-direction: row-reverse;
-      min-height: 500px;
-      border: 1px solid #ddd;
-    }
-
-    /* Дясна част - меню */
-
-    .right-panel {
-      flex: 1.4;
-      background-color: #fafafa;
-      padding: 25px 20px;
-      overflow-y: auto;
-      border-left: 2px solid #ccc;
+    .sidebar {
+      width: 100px;
+      background-color: #f9d235;
       display: flex;
       flex-direction: column;
+      padding-top: 30px;
       box-sizing: border-box;
+      border-right: 2px solid #d2b918;
     }
 
-    header {
-      text-align: center;
-      margin-bottom: 25px;
-      font-family: 'Playfair Display', serif;
-    }
-
-    header h1 {
-      font-size: 2.2rem;
-      color: #111;
-      margin: 0;
-      letter-spacing: 2px;
-      user-select: none;
-    }
-
-    header p {
-      color: #666;
-      font-style: italic;
-      margin-top: 4px;
-      user-select: none;
-    }
-
-    /* Меню с категории - хоризонтално за мобилни и вертикално за десктоп */
-
-    .categories {
-      display: flex;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      gap: 10px;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    .category-button {
-      flex: 0 0 auto;
-      background: none;
-      border: none;
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      color: #555;
-      cursor: pointer;
-      padding: 8px 16px;
-      border-radius: 8px;
-      transition: all 0.25s ease;
-      user-select: none;
-      border: 1px solid transparent;
-    }
-
-    .category-button:hover {
-      background-color: #eee;
-      color: #222;
-    }
-
-    .category-button.active {
-      background-color: #222;
-      color: #fff;
-      border-color: #222;
-    }
-
-    /* Списък с ястия */
-
-    .dishes-list {
-      flex-grow: 1;
-      overflow-y: auto;
-    }
-
-    .dish-item {
-      font-size: 1rem;
-      padding: 10px 12px;
-      cursor: pointer;
-      border-radius: 8px;
-      color: #444;
-      border: 1px solid transparent;
-      margin-bottom: 10px;
-      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-      user-select: none;
-    }
-
-    .dish-item:hover {
-      background-color: #222;
-      color: #fff;
-      border-color: #222;
-    }
-
-    .dish-item.active {
-      background-color: #111;
-      color: #fff;
-      border-color: #111;
+    .category-btn {
+      font-size: 0.75rem;
       font-weight: 600;
-    }
-
-    /* Лява част - изображение и описание */
-
-    .left-panel {
-      flex: 2;
-      background-color: #fff;
-      padding: 35px 25px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      color: #333;
       text-align: center;
-      box-sizing: border-box;
+      padding: 10px 5px;
+      cursor: pointer;
+      border-left: 4px solid transparent;
+      margin-bottom: 12px;
+      user-select: none;
+      transition: all 0.3s ease;
     }
 
-    .left-panel img {
-      width: 100%;
-      border-radius: 14px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
-      max-height: 400px;
-      object-fit: cover;
-      margin-bottom: 26px;
+    .category-btn:hover {
+      background-color: #e5c735;
     }
 
-    .left-panel h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.6rem;
-      color: #111;
-      margin-bottom: 14px;
-      letter-spacing: 2px;
-    }
-
-    .left-panel p.description {
-      font-size: 1.1rem;
-      line-height: 1.5;
-      color: #555;
-      margin-bottom: 22px;
-      max-width: 95%;
-    }
-
-    .left-panel .ingredients {
-      font-style: italic;
-      color: #888;
-      margin-bottom: 22px;
-      font-size: 0.94rem;
-    }
-
-    .left-panel .price {
+    .category-btn.active {
+      border-left-color: #333;
+      background-color: #d6c62f;
       font-weight: 700;
-      font-size: 1.9rem;
       color: #111;
-      letter-spacing: 2px;
     }
 
-    /* Скролове */
-
-    .right-panel::-webkit-scrollbar {
-      width: 8px;
+    .content {
+      flex-grow: 1;
+      padding: 30px 25px;
+      overflow-y: auto;
     }
 
-    .right-panel::-webkit-scrollbar-thumb {
-      background: #ccc;
-      border-radius: 6px;
+    h1 {
+      font-family: 'Georgia', serif;
+      font-size: 2rem;
+      margin-top: 0;
+      margin-bottom: 25px;
+      color: #222;
+      text-align: center;
     }
 
-    .dishes-list::-webkit-scrollbar {
-      width: 6px;
+    h2 {
+      font-family: 'Georgia', serif;
+      font-size: 1.6rem;
+      margin-bottom: 15px;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 6px;
     }
 
-    .dishes-list::-webkit-scrollbar-thumb {
-      background: #bbb;
-      border-radius: 3px;
+    .dish {
+      margin-bottom: 20px;
     }
 
-    /* Адаптивност */
+    .dish-name {
+      font-weight: bold;
+      font-size: 1.15rem;
+      display: block;
+      margin-bottom: 4px;
+    }
 
-    @media (max-width: 900px) {
-      .container {
+    .dish-desc {
+      font-style: italic;
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 5px;
+    }
+
+    .dish-price {
+      font-weight: 600;
+      color: #777;
+      text-align: right;
+      font-size: 1rem;
+    }
+
+    /* За малки екрани правим колони вертикални */
+    @media (max-width: 600px) {
+      body {
         flex-direction: column;
-        min-height: auto;
       }
 
-      .left-panel {
-        padding: 20px 15px;
-        max-height: none;
+      .sidebar {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: center;
+        padding: 10px 0;
+        border-right: none;
+        border-bottom: 2px solid #d2b918;
       }
 
-      .left-panel img {
-        max-height: 260px;
-        margin-bottom: 20px;
-        border-radius: 12px;
-      }
-
-      .left-panel h2 {
-        font-size: 2rem;
-      }
-
-      .left-panel p.description,
-      .left-panel .ingredients {
-        font-size: 1rem;
-      }
-
-      .left-panel .price {
-        font-size: 1.7rem;
-      }
-
-      .right-panel {
-        flex: none;
-        padding: 15px 15px 25px;
+      .category-btn {
+        margin: 0 8px;
+        padding: 8px 6px;
+        font-size: 0.85rem;
         border-left: none;
-        border-top: 1px solid #ddd;
-        max-height: 320px;
-        overflow-y: visible;
+        border-bottom: 3px solid transparent;
       }
 
-      header {
-        margin-bottom: 15px;
+      .category-btn.active {
+        border-left: none;
+        border-bottom-color: #333;
+        background-color: #f8ea87;
       }
 
-      .categories {
-        margin-bottom: 8px;
-        border-bottom: none;
-      }
-
-      .category-button {
-        font-size: 1rem;
-        padding: 8px 14px;
-        border-radius: 12px;
-      }
-
-      .category-button.active {
-        border-radius: 12px;
-      }
-
-      .dishes-list {
-        max-height: none;
-        margin-top: 0;
+      .content {
+        padding: 20px 15px;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <div class="left-panel" id="leftPanel">
-      <img id="dishImage" src="https://images.unsplash.com/photo-1604909053142-0c7af30f93a5?auto=format&fit=crop&w=700&q=80" alt="Ястие">
-      <h2 id="dishTitle">Филе миньон с трюфелов сос</h2>
-      <p class="description" id="dishDescription">Кадифено филе миньон, сервирано със сос от бели трюфели, гарнирано с пресни зеленчуци и домашно приготвено картофено пюре.</p>
-      <p class="ingredients" id="dishIngredients">Съставки: говеждо месо, трюфели, сметана, подправки</p>
-      <p class="price" id="dishPrice">58 лв.</p>
-    </div>
+  <div class="sidebar" id="categories">
+    <!-- Категории ще се заредят тук -->
+  </div>
 
-    <div class="right-panel">
-      <header>
-        <h1>Ресторант "Елеганс"</h1>
-        <p>Изискано дигитално меню</p>
-      </header>
-
-      <nav class="categories" id="categoriesNav"></nav>
-
-      <div class="dishes-list" id="dishesList"></div>
-    </div>
+  <div class="content">
+    <h1>Меню на ресторант</h1>
+    <div id="categoryTitle" style="font-family: Georgia, serif; font-size:1.6rem; margin-bottom: 20px; color:#444;"></div>
+    <div id="dishesList"></div>
   </div>
 
   <script>
     const menuData = {
-      "Предястия": [
-        {
-          title: "Карпачо от говеждо",
-          description: "Фино нарязано прясно говеждо месо с каперси, рукола и пармезан.",
-          ingredients: "говеждо месо, каперси, рукола, пармезан",
-          price: "28 лв.",
-          image: "https://images.unsplash.com/photo-1556912994-3c0115aa0746?auto=format&fit=crop&w=700&q=80"
-        },
-        {
-          title: "Салата Рукола с пармезан",
-          description: "Свежа салата с рукола, пармезан, чери домати и зехтин.",
-          ingredients: "рукола, пармезан, чери домати, зехтин",
-          price: "24 лв.",
-          image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=700&q=80"
-        }
-      ],
-      "Основни ястия": [
-        {
-          title: "Филе миньон с трюфелов сос",
-          description: "Кадифено филе миньон, сервирано със сос от бели трюфели, гарнирано с пресни зеленчуци и домашно приготвено картофено пюре.",
-          ingredients: "говеждо месо, трюфели, сметана, подправки",
-          price: "58 лв.",
-          image: "https://images.unsplash.com/photo-1604909053142-0c7af30f93a5?auto=format&fit=crop&w=700&q=80"
-        },
-        {
-          title: "Лосос на скара с аспержи",
-          description: "Прясно изпечен лосос, поднесен с печени аспержи и лимонов сос.",
-          ingredients: "лосос, аспержи, лимон, подправки",
-          price: "52 лв.",
-          image: "https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=700&q=80"
-        }
-      ],
-      "Десерти": [
-        {
-          title: "Шоколадово суфле с ванилов крем",
-          description: "Топло шоколадово суфле, поднесено с лек ванилов крем и пресни плодове.",
-          ingredients: "шоколад, ванилия, яйца, брашно",
-          price: "18 лв.",
-          image: "https://images.unsplash.com/photo-1562440499-176fed524888?auto=format&fit=crop&w=700&q=80"
-        },
-        {
-          title: "Мус от манго и маракуя",
-          description: "Лек и освежаващ мус с манго и маракуя, украсен с листа мента.",
-          ingredients: "манго, маракуя, сметана, захар",
-          price: "16 лв.",
-          image: "https://images.unsplash.com/photo-1563805042-7684d5e29fff?auto=format&fit=crop&w=700&q=80"
-        }
-      ],
       "Напитки": [
         {
-          title: "Червено вино Каберне",
-          description: "Богато и плътно червено вино с аромат на тъмни плодове.",
-          ingredients: "каберне совиньон",
-          price: "14 лв.",
-          image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=700&q=80"
+          title: "Минерална вода",
+          description: "500 мл",
+          price: "2 лв."
         },
         {
-          title: "Шампанско брют",
-          description: "Елегантно и свежо шампанско с балансирана киселинност.",
-          ingredients: "шампанско, грозде",
-          price: "22 лв.",
-          image: "https://images.unsplash.com/photo-1617191512881-5e704a81c38b?auto=format&fit=crop&w=700&q=80"
+          title: "Безалкохолна напитка",
+          description: "Асортимент от газирани напитки",
+          price: "3 лв."
         },
         {
-          title: "Еспресо",
-          description: "Силно и ароматно кафе, приготвено с фина техника.",
-          ingredients: "кафе",
-          price: "5 лв.",
-          image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=700&q=80"
+          title: "Кафе еспресо",
+          description: "",
+          price: "2.5 лв."
+        }
+      ],
+
+      "Предястия": [
+        {
+          title: "Карпачо",
+          description: "Свежо нарязано говеждо месо със зехтин и пармезан",
+          price: "12 лв."
+        },
+        {
+          title: "Салата Цезар",
+          description: "Салата с маруля, пиле, пармезан и дресинг",
+          price: "10 лв."
+        }
+      ],
+
+      "Основни ястия": [
+        {
+          title: "Пиле с гарнитура",
+          description: "Печено пиле със сезонни зеленчуци и картофи",
+          price: "15 лв."
+        },
+        {
+          title: "Спагети Болонезе",
+          description: "Домашни спагети с месен сос болонезе",
+          price: "13 лв."
+        }
+      ],
+
+      "Десерти": [
+        {
+          title: "Тирамису",
+          description: "Класически десерт с кафе и маскарпоне",
+          price: "7 лв."
+        },
+        {
+          title: "Чийзкейк",
+          description: "Плодов чийзкейк с бисквитена основа",
+          price: "8 лв."
         }
       ]
     };
 
-    const categoriesNav = document.getElementById('categoriesNav');
-    const dishesList = document.getElementById('dishesList');
-    const dishImage = document.getElementById('dishImage');
-    const dishTitle = document.getElementById('dishTitle');
-    const dishDescription = document.getElementById('dishDescription');
-    const dishIngredients = document.getElementById('dishIngredients');
-    const dishPrice = document.getElementById('dishPrice');
+    const categoriesDiv = document.getElementById('categories');
+    const dishesListDiv = document.getElementById('dishesList');
+    const categoryTitleDiv = document.getElementById('categoryTitle');
 
     let currentCategory = null;
-    let currentDishIndex = 0;
 
     function loadCategories() {
       for (const category in menuData) {
         const btn = document.createElement('button');
         btn.textContent = category;
-        btn.classList.add('category-button');
-        btn.onclick = () => selectCategory(category);
-        categoriesNav.appendChild(btn);
+        btn.className = 'category-btn';
+        btn.onclick = () => selectCategory(category, btn);
+        categoriesDiv.appendChild(btn);
       }
+      // Взимаме първата категория по подразбиране
       const firstCategory = Object.keys(menuData)[0];
-      selectCategory(firstCategory);
+      const firstBtn = categoriesDiv.querySelector('button');
+      selectCategory(firstCategory, firstBtn);
     }
 
-    function selectCategory(category) {
+    function selectCategory(category, btn) {
       currentCategory = category;
-      currentDishIndex = 0;
-      updateCategoryButtons();
-      loadDishes();
-      showDish(currentDishIndex);
+      categoryTitleDiv.textContent = category;
+      loadDishes(category);
+      updateActiveCategory(btn);
     }
 
-    function updateCategoryButtons() {
-      [...categoriesNav.children].forEach(btn => {
-        btn.classList.toggle('active', btn.textContent === currentCategory);
+    function loadDishes(category) {
+      dishesListDiv.innerHTML = '';
+      menuData[category].forEach(dish => {
+        const dishDiv = document.createElement('div');
+        dishDiv.className = 'dish';
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'dish-name';
+        nameSpan.textContent = dish.title;
+
+        const priceSpan = document.createElement('span');
+        priceSpan.className = 'dish-price';
+        priceSpan.textContent = dish.price;
+
+        const descDiv = document.createElement('div');
+        descDiv.className = 'dish-desc';
+        descDiv.textContent = dish.description;
+
+        dishDiv.appendChild(nameSpan);
+        dishDiv.appendChild(priceSpan);
+        dishDiv.appendChild(descDiv);
+
+        dishesListDiv.appendChild(dishDiv);
       });
     }
 
-    function loadDishes() {
-      dishesList.innerHTML = '';
-      menuData[currentCategory].forEach((dish, index) => {
-        const div = document.createElement('div');
-        div.classList.add('dish-item');
-        div.textContent = dish.title;
-        div.onclick = () => {
-          currentDishIndex = index;
-          showDish(currentDishIndex);
-          updateDishActive();
-        };
-        dishesList.appendChild(div);
+    function updateActiveCategory(activeBtn) {
+      const buttons = categoriesDiv.querySelectorAll('button');
+      buttons.forEach(btn => {
+        btn.classList.remove('active');
       });
-      updateDishActive();
-    }
-
-    function updateDishActive() {
-      [...dishesList.children].forEach((el, idx) => {
-        el.classList.toggle('active', idx === currentDishIndex);
-      });
-    }
-
-    function showDish(index) {
-      const dish = menuData[currentCategory][index];
-      dishImage.src = dish.image;
-      dishTitle.textContent = dish.title;
-      dishDescription.textContent = dish.description;
-      dishIngredients.textContent = `Съставки: ${dish.ingredients}`;
-      dishPrice.textContent = dish.price;
+      activeBtn.classList.add('active');
     }
 
     loadCategories();
+
   </script>
 </body>
 
