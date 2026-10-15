@@ -2,270 +2,218 @@
 <html lang="bg">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Меню с жълто поле за категории и лога</title>
-  <style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Меню с жълто поле за категории и сектори алкохол</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    color: #222;
+    display: flex;
+    min-height: 100vh;
+  }
+  .sidebar {
+    width: 100px;
+    background-color: #f9d235;
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    box-sizing: border-box;
+    border-right: 2px solid #d2b918;
+  }
+  .category-btn {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    padding: 10px 5px;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+    margin-bottom: 12px;
+    user-select: none;
+    transition: all 0.3s ease;
+  }
+  .category-btn:hover {
+    background-color: #e5c735;
+  }
+  .category-btn.active {
+    border-left-color: #333;
+    background-color: #d6c62f;
+    font-weight: 700;
+    color: #111;
+  }
+  .content {
+    flex-grow: 1;
+    padding: 30px 25px;
+    overflow-y: auto;
+  }
+  h1 {
+    font-family: 'Georgia', serif;
+    font-size: 2rem;
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #222;
+    text-align: center;
+  }
+  h2 {
+    font-family: 'Georgia', serif;
+    font-size: 1.6rem;
+    color: #333;
+    border-bottom: 2px solid #bbb;
+    padding-bottom: 6px;
+    margin-top: 40px;
+    margin-bottom: 15px;
+  }
+  .sector {
+    margin-bottom: 30px;
+  }
+  .dish {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .dish-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    max-width: 75%;
+    word-wrap: break-word;
+  }
+  .dish-price {
+    font-weight: 600;
+    color: #555;
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+  .dish-desc {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 3px;
+    max-width: 100%;
+    clear: both;
+  }
+  @media (max-width: 600px) {
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #fff;
-      color: #222;
-      display: flex;
-      min-height: 100vh;
-    }
-
-    .sidebar {
-      width: 100px;
-      background-color: #f9d235;
-      display: flex;
       flex-direction: column;
-      padding-top: 30px;
-      box-sizing: border-box;
-      border-right: 2px solid #d2b918;
     }
-
+    .sidebar {
+      width: 100%;
+      height: auto;
+      flex-direction: row;
+      justify-content: center;
+      padding: 10px 0;
+      border-right: none;
+      border-bottom: 2px solid #d2b918;
+    }
     .category-btn {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #333;
-      text-align: center;
-      padding: 10px 5px;
-      cursor: pointer;
-      border-left: 4px solid transparent;
-      margin-bottom: 12px;
-      user-select: none;
-      transition: all 0.3s ease;
+      margin: 0 8px;
+      padding: 8px 6px;
+      font-size: 0.85rem;
+      border-left: none;
+      border-bottom: 3px solid transparent;
     }
-
-    .category-btn:hover {
-      background-color: #e5c735;
-    }
-
     .category-btn.active {
-      border-left-color: #333;
-      background-color: #d6c62f;
-      font-weight: 700;
-      color: #111;
+      border-left: none;
+      border-bottom-color: #333;
+      background-color: #f8ea87;
     }
-
     .content {
-      flex-grow: 1;
-      padding: 30px 25px;
-      overflow-y: auto;
+      padding: 20px 15px;
     }
-
-    h1 {
-      font-family: 'Georgia', serif;
-      font-size: 2rem;
-      margin-top: 0;
-      margin-bottom: 25px;
-      color: #222;
-      text-align: center;
-    }
-
-    h2 {
-      font-family: 'Georgia', serif;
-      font-size: 1.6rem;
-      margin-bottom: 15px;
-      color: #333;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 6px;
-    }
-
     .dish {
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      align-items: flex-start;
     }
-
-    .dish-name {
-      font-weight: bold;
-      font-size: 1.15rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      max-width: 70%;
-      word-wrap: break-word;
-    }
-
-    .dish-logo {
-      width: 24px;
-      height: 24px;
-      object-fit: contain;
-      border-radius: 4px;
-    }
-
-    .dish-desc {
-      font-style: italic;
-      font-size: 0.9rem;
-      color: #555;
-      margin-top: 3px;
-      max-width: 80%;
-      clear: both;
-    }
-
     .dish-price {
-      font-weight: 600;
-      color: #777;
-      font-size: 1rem;
-      white-space: nowrap;
+      margin-top: 5px;
     }
-
-    /* За малки екрани правим колони вертикални */
-    @media (max-width: 600px) {
-      body {
-        flex-direction: column;
-      }
-
-      .sidebar {
-        width: 100%;
-        height: auto;
-        flex-direction: row;
-        justify-content: center;
-        padding: 10px 0;
-        border-right: none;
-        border-bottom: 2px solid #d2b918;
-      }
-
-      .category-btn {
-        margin: 0 8px;
-        padding: 8px 6px;
-        font-size: 0.85rem;
-        border-left: none;
-        border-bottom: 3px solid transparent;
-      }
-
-      .category-btn.active {
-        border-left: none;
-        border-bottom-color: #333;
-        background-color: #f8ea87;
-      }
-
-      .content {
-        padding: 20px 15px;
-      }
-
-      .dish {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .dish-price {
-        margin-top: 5px;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 
 <body>
-  <div class="sidebar" id="categories">
-    <!-- Категории ще се заредят тук -->
-  </div>
-
+  <div class="sidebar" id="categories"></div>
   <div class="content">
     <h1>Меню на ресторант</h1>
-    <div id="categoryTitle" style="font-family: Georgia, serif; font-size:1.6rem; margin-bottom: 20px; color:#444;"></div>
+    <h2 id="categoryTitle"></h2>
     <div id="dishesList"></div>
   </div>
 
   <script>
     const menuData = {
-      "Напитки": [
-        {
-          title: "Минерална вода - 500 мл",
-          description: "",
-          price: "0.50 лв.",
-          logo: "https://i.imgur.com/5jzS8sb.png"
-        },
-        {
-          title: "Минерална вода - 1.50 л",
-          description: "",
-          price: "1.20 лв."
-        },
-        {
-          title: "Кола - 250 мл",
-          description: "",
-          price: "1.50 лв."
-        },
-        {
-          title: "Фанта - 250 мл",
-          description: "",
-          price: "1.50 лв."
-        },
-        {
-          title: "Сода - 250 мл",
-          description: "",
-          price: "1.00 лв."
-        },
-        {
-          title: "Спрайт - 250 мл",
-          description: "",
-          price: "1.50 лв."
-        },
-        {
-          title: "Швепс тоник - 250 мл",
-          description: "",
-          price: "1.50 лв."
-        },
-        {
-          title: "Капи - 250 мл",
-          description: "",
-          price: "1.50 лв."
-        },
-        {
-          title: "Студен чай - 500 мл",
-          description: "",
-          price: "1.50 лв."
-        }
+      "Студени напитки": [
+        {title: "Минерална вода - 500 мл", description: "", price: "0.50 лв.", logo: "https://i.imgur.com/5jzS8sb.png"},
+        {title: "Минерална вода - 1.50 л", description: "", price: "1.20 лв."},
+        {title: "Кола - 250 мл", description: "", price: "1.50 лв."},
+        {title: "Фанта - 250 мл", description: "", price: "1.50 лв."},
+        {title: "Сода - 250 мл", description: "", price: "1.00 лв."},
+        {title: "Спрайт - 250 мл", description: "", price: "1.50 лв."},
+        {title: "Швепс тоник - 250 мл", description: "", price: "1.50 лв."},
+        {title: "Капи - 250 мл", description: "", price: "1.50 лв."},
+        {title: "Студен чай - 500 мл", description: "", price: "1.50 лв."}
       ],
-
+      "Топли напитки": [
+        {title: "Кафе еспресо", description: "", price: "0.60 лв."},
+        {title: "Чай", description: "", price: "0.60 лв."},
+        {title: "3в1", description: "", price: "0.60 лв."},
+        {title: "Фрапе", description: "", price: "1.50 лв."},
+        {title: "Горещ шоколад", description: "", price: ""},
+        {title: "Мед", description: "", price: ""},
+        {title: "Сметана", description: "", price: "0.10 лв."},
+        {title: "Каничка мляко", description: "", price: "0.30 лв."}
+      ],
+      "Алкохолни напитки": {
+        "Ракии": [
+          {title: "Домашна ракия", description: "", price: ""},
+          {title: "Ракия Бургас 63", description: "", price: ""},
+          {title: "Ракия Сунгурларска гроздова", description: "", price: ""},
+          {title: "Ракия Сливенска перла", description: "", price: ""}
+        ],
+        "Уискита": [
+          {title: "Джак Даниелс (Jack Daniels)", description: "", price: ""},
+          {title: "Джони Уокър (Johnnie Walker Red label)", description: "", price: ""},
+          {title: "Джеймисън (Jameson)", description: "", price: ""},
+          {title: "Джей енд Би (J&B)", description: "", price: ""},
+          {title: "Джим Бийм (Jim beam)", description: "", price: ""},
+          {title: "Феймъс граус (famous grouse)", description: "", price: ""},
+          {title: "Tullamore D.E.W.", description: "", price: ""}
+        ],
+        "Водки": [
+          {title: "Руски Стандарт (Russian Standard)", description: "", price: ""},
+          {title: "Смирноф (Smirnoff)", description: "", price: ""},
+          {title: "Житна (ZYTNIA)", description: "", price: ""},
+          {title: "Зубровка (Żubrówka)", description: "", price: ""}
+        ],
+        "Вина": [
+          {title: "Домашно вино", description: "", price: ""}
+        ],
+        "УЗО": [
+          {title: "УЗО", description: "", price: ""},
+          {title: "УЗО МЕЛТЕМИ (OUZO MELTEMI)", description: "", price: ""},
+          {title: "Узо Пломари (Ouzo of Plomari)", description: "", price: ""},
+          {title: "УЗО 12 (OUZO 12)", description: "", price: ""}
+        ]
+      },
       "Предястия": [
-        {
-          title: "Карпачо",
-          description: "Свежо нарязано говеждо месо със зехтин и пармезан",
-          price: "12 лв."
-        },
-        {
-          title: "Салата Цезар",
-          description: "Салата с маруля, пиле, пармезан и дресинг",
-          price: "10 лв."
-        }
+        {title: "Карпачо", description: "Свежо нарязано говеждо месо със зехтин и пармезан", price: "12 лв."},
+        {title: "Салата Цезар", description: "Салата с маруля, пиле, пармезан и дресинг", price: "10 лв."}
       ],
-
       "Основни ястия": [
-        {
-          title: "Пиле с гарнитура",
-          description: "Печено пиле със сезонни зеленчуци и картофи",
-          price: "15 лв."
-        },
-        {
-          title: "Спагети Болонезе",
-          description: "Домашни спагети с месен сос болонезе",
-          price: "13 лв."
-        }
+        {title: "Пиле с гарнитура", description: "Печено пиле със сезонни зеленчуци и картофи", price: "15 лв."},
+        {title: "Спагети Болонезе", description: "Домашни спагети с месен сос болонезе", price: "13 лв."}
       ],
-
       "Десерти": [
-        {
-          title: "Тирамису",
-          description: "Класически десерт с кафе и маскарпоне",
-          price: "7 лв."
-        },
-        {
-          title: "Чийзкейк",
-          description: "Плодов чийзкейк с бисквитена основа",
-          price: "8 лв."
-        }
+        {title: "Тирамису", description: "Класически десерт с кафе и маскарпоне", price: "7 лв."},
+        {title: "Чийзкейк", description: "Плодов чийзкейк с бисквитена основа", price: "8 лв."}
       ]
     };
 
     const categoriesDiv = document.getElementById('categories');
     const dishesListDiv = document.getElementById('dishesList');
     const categoryTitleDiv = document.getElementById('categoryTitle');
-
-    let currentCategory = null;
 
     function loadCategories() {
       for (const category in menuData) {
@@ -275,53 +223,81 @@
         btn.onclick = () => selectCategory(category, btn);
         categoriesDiv.appendChild(btn);
       }
-      // Взимаме първата категория по подразбиране
       const firstCategory = Object.keys(menuData)[0];
       const firstBtn = categoriesDiv.querySelector('button');
       selectCategory(firstCategory, firstBtn);
     }
 
     function selectCategory(category, btn) {
-      currentCategory = category;
       categoryTitleDiv.textContent = category;
-      loadDishes(category);
       updateActiveCategory(btn);
+      loadDishes(category);
     }
 
     function loadDishes(category) {
       dishesListDiv.innerHTML = '';
-      menuData[category].forEach(dish => {
-        const dishDiv = document.createElement('div');
-        dishDiv.className = 'dish';
+      let items = menuData[category];
+      if (category === "Алкохолни напитки") {
+        for (const sector in items) {
+          const sectorDiv = document.createElement('div');
+          sectorDiv.className = 'sector';
+          const sectorTitle = document.createElement('h2');
+          sectorTitle.textContent = sector;
+          sectorDiv.appendChild(sectorTitle);
 
-        const nameSpan = document.createElement('span');
-        nameSpan.className = 'dish-name';
+          items[sector].forEach(dish => {
+            const dishDiv = document.createElement('div');
+            dishDiv.className = 'dish';
 
-        if (dish.logo) {
-          const logoImg = document.createElement('img');
-          logoImg.src = dish.logo;
-          logoImg.alt = dish.title + " лого";
-          logoImg.className = 'dish-logo';
-          nameSpan.appendChild(logoImg);
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'dish-name';
+            nameSpan.textContent = dish.title;
+
+            const priceSpan = document.createElement('span');
+            priceSpan.className = 'dish-price';
+            if (dish.price && dish.price.trim() !== "") priceSpan.textContent = dish.price;
+
+            dishDiv.appendChild(nameSpan);
+            dishDiv.appendChild(priceSpan);
+
+            if (dish.description && dish.description.trim() !== "") {
+              const descDiv = document.createElement('div');
+              descDiv.className = 'dish-desc';
+              descDiv.textContent = dish.description;
+              dishDiv.appendChild(descDiv);
+            }
+
+            sectorDiv.appendChild(dishDiv);
+          });
+
+          dishesListDiv.appendChild(sectorDiv);
         }
+      } else {
+        items.forEach(dish => {
+          const dishDiv = document.createElement('div');
+          dishDiv.className = 'dish';
 
-        const textNode = document.createTextNode(dish.title);
-        nameSpan.appendChild(textNode);
+          const nameSpan = document.createElement('span');
+          nameSpan.className = 'dish-name';
+          nameSpan.textContent = dish.title;
 
-        const priceSpan = document.createElement('span');
-        priceSpan.className = 'dish-price';
-        priceSpan.textContent = dish.price;
+          const priceSpan = document.createElement('span');
+          priceSpan.className = 'dish-price';
+          if (dish.price && dish.price.trim() !== "") priceSpan.textContent = dish.price;
 
-        const descDiv = document.createElement('div');
-        descDiv.className = 'dish-desc';
-        descDiv.textContent = dish.description;
+          dishDiv.appendChild(nameSpan);
+          dishDiv.appendChild(priceSpan);
 
-        dishDiv.appendChild(nameSpan);
-        dishDiv.appendChild(priceSpan);
-        dishDiv.appendChild(descDiv);
+          if (dish.description && dish.description.trim() !== "") {
+            const descDiv = document.createElement('div');
+            descDiv.className = 'dish-desc';
+            descDiv.textContent = dish.description;
+            dishDiv.appendChild(descDiv);
+          }
 
-        dishesListDiv.appendChild(dishDiv);
-      });
+          dishesListDiv.appendChild(dishDiv);
+        });
+      }
     }
 
     function updateActiveCategory(activeBtn) {
