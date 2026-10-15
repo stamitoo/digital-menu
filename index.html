@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Меню с жълто поле за категории</title>
+  <title>Меню с жълто поле за категории и лога</title>
   <style>
     body {
       margin: 0;
@@ -75,27 +75,42 @@
 
     .dish {
       margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .dish-name {
       font-weight: bold;
       font-size: 1.15rem;
-      display: block;
-      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 70%;
+      word-wrap: break-word;
+    }
+
+    .dish-logo {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      border-radius: 4px;
     }
 
     .dish-desc {
       font-style: italic;
       font-size: 0.9rem;
       color: #555;
-      margin-bottom: 5px;
+      margin-top: 3px;
+      max-width: 80%;
+      clear: both;
     }
 
     .dish-price {
       font-weight: 600;
       color: #777;
-      text-align: right;
       font-size: 1rem;
+      white-space: nowrap;
     }
 
     /* За малки екрани правим колони вертикални */
@@ -131,6 +146,15 @@
       .content {
         padding: 20px 15px;
       }
+
+      .dish {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .dish-price {
+        margin-top: 5px;
+      }
     }
   </style>
 </head>
@@ -150,19 +174,50 @@
     const menuData = {
       "Напитки": [
         {
-          title: "Минерална вода",
-          description: "500 мл",
-          price: "2 лв."
-        },
-        {
-          title: "Безалкохолна напитка",
-          description: "Асортимент от газирани напитки",
-          price: "3 лв."
-        },
-        {
-          title: "Кафе еспресо",
+          title: "Минерална вода - 500 мл",
           description: "",
-          price: "2.5 лв."
+          price: "0.50 лв.",
+          logo: "https://i.imgur.com/5jzS8sb.png"
+        },
+        {
+          title: "Минерална вода - 1.50 л",
+          description: "",
+          price: "1.20 лв."
+        },
+        {
+          title: "Кола - 250 мл",
+          description: "",
+          price: "1.50 лв."
+        },
+        {
+          title: "Фанта - 250 мл",
+          description: "",
+          price: "1.50 лв."
+        },
+        {
+          title: "Сода - 250 мл",
+          description: "",
+          price: "1.00 лв."
+        },
+        {
+          title: "Спрайт - 250 мл",
+          description: "",
+          price: "1.50 лв."
+        },
+        {
+          title: "Швепс тоник - 250 мл",
+          description: "",
+          price: "1.50 лв."
+        },
+        {
+          title: "Капи - 250 мл",
+          description: "",
+          price: "1.50 лв."
+        },
+        {
+          title: "Студен чай - 500 мл",
+          description: "",
+          price: "1.50 лв."
         }
       ],
 
@@ -241,7 +296,17 @@
 
         const nameSpan = document.createElement('span');
         nameSpan.className = 'dish-name';
-        nameSpan.textContent = dish.title;
+
+        if (dish.logo) {
+          const logoImg = document.createElement('img');
+          logoImg.src = dish.logo;
+          logoImg.alt = dish.title + " лого";
+          logoImg.className = 'dish-logo';
+          nameSpan.appendChild(logoImg);
+        }
+
+        const textNode = document.createTextNode(dish.title);
+        nameSpan.appendChild(textNode);
 
         const priceSpan = document.createElement('span');
         priceSpan.className = 'dish-price';
@@ -268,7 +333,6 @@
     }
 
     loadCategories();
-
   </script>
 </body>
 
